@@ -1,11 +1,14 @@
 import unittest
-import pandas as pd
 
+import pandas as pd
 from penalizer import penalize_movie_score
 
 
 class TestPenalizeMovieScore(unittest.TestCase):
     def setUp(self):
+        """
+        Initializes a sample DataFrame of movies with title, rating, and votes columns.
+        """
         self.movies = pd.DataFrame(
             {
                 "title": [
@@ -19,6 +22,9 @@ class TestPenalizeMovieScore(unittest.TestCase):
         )
 
     def test_penalize_movie_score(self):
+        """
+        Tests the `penalize_movie_score` when provided with a valid input DataFrame.
+        """
         expected_output = pd.DataFrame(
             {
                 "title": [
@@ -35,6 +41,9 @@ class TestPenalizeMovieScore(unittest.TestCase):
         pd.testing.assert_frame_equal(output, expected_output)
 
     def test_penalize_movie_score_small_data(self):
+        """
+        Tests the `penalize_movie_score` when all movies have the same number of votes and no penalty is applied.
+        """
         movies = self.movies[:2].copy()
         expected_output = pd.DataFrame(
             {
@@ -48,6 +57,9 @@ class TestPenalizeMovieScore(unittest.TestCase):
         pd.testing.assert_frame_equal(output, expected_output)
 
     def test_penalize_movie_score_no_penalty(self):
+        """
+        Tests  the `penalize_movie_score`when one or more movies have negative ratings.
+        """
         movies = self.movies.copy()
         movies["votes"] = 500000
         expected_output = pd.DataFrame(

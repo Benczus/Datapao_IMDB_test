@@ -12,6 +12,7 @@ selenium = "^4.8.3"
 pandas = "^1.5.3"
 aiohttp = "^3.8.4"
 asynctest = "^0.13.0"
+nest-asyncio = "^1.5.6"
 
 
 

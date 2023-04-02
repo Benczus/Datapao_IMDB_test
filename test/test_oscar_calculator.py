@@ -1,12 +1,15 @@
-import pandas as pd
-import numpy as np
 import unittest
 
+import numpy as np
+import pandas as pd
 from oscar_rewarder import rewards_oscars
 
 
 class TestRewardsOscars(unittest.TestCase):
     def setUp(self):
+        """
+        Initializes a sample DataFrame of movies with title, rating, and votes columns.
+        """
         self.movies = pd.DataFrame(
             {
                 "title": [
@@ -20,6 +23,9 @@ class TestRewardsOscars(unittest.TestCase):
         )
 
     def test_rewards_oscars(self):
+        """
+        Test the rewards_oscars() function with a valid input.
+        """
         expected_output = pd.DataFrame(
             {
                 "title": [
@@ -35,6 +41,9 @@ class TestRewardsOscars(unittest.TestCase):
         pd.testing.assert_frame_equal(output, expected_output)
 
     def test_rewards_oscars_no_oscar_wins(self):
+        """
+        Test the rewards_oscars() function with all movies having no oscar wins.
+        """
         movies = self.movies.copy()
         movies["num_oscars"] = 0
         expected_output = pd.DataFrame(
@@ -52,6 +61,9 @@ class TestRewardsOscars(unittest.TestCase):
         pd.testing.assert_frame_equal(output, expected_output)
 
     def test_rewards_oscars_negative_rating(self):
+        """
+        Test the rewards_oscars() function with a negative adjusted rating.
+        """
         movies = self.movies.copy()
         movies["adjusted_rating"] = -1
         expected_output = pd.DataFrame(
@@ -69,6 +81,9 @@ class TestRewardsOscars(unittest.TestCase):
         pd.testing.assert_frame_equal(output, expected_output)
 
     def test_rewards_oscars_nan_oscar_wins(self):
+        """
+        Test the rewards_oscars() function with NaN values for num_oscars.
+        """
         movies = self.movies.copy()
         movies["num_oscars"] = np.nan
         expected_output = pd.DataFrame(
